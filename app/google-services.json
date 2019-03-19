@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "335664408517",
+    "firebase_url": "https://taskbosstwo.firebaseio.com",
+    "project_id": "taskbosstwo",
+    "storage_bucket": "taskbosstwo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335664408517:android:198618a466659441",
+        "android_client_info": {
+          "package_name": "com.example.android.taskbosstwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335664408517-el3hb0bljko9l1rkve5v81flavv3uak6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.taskbosstwo",
+            "certificate_hash": "d3d3da076ae330a609df7b82ca38bf5fd852628e"
+          }
+        },
+        {
+          "client_id": "335664408517-rfh339341m8b9prrk75lenprb8ihdahe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhQ2auFL4YUyz100FvtzQBCHLLjVUq6sA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335664408517-rfh339341m8b9prrk75lenprb8ihdahe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
