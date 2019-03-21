@@ -38,6 +38,13 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         return new NoteHolder(v);
     }
 
+    public void deleteItem(int position) {
+        //FireStore recycler automaticly detects db changes so no manual checking needs to be done
+        //Get document  at document with this position, get its reference call delete on it
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
+
+    //Great place to set onclick listeners on object with recycler view here
     class NoteHolder extends RecyclerView.ViewHolder{
         //Declare views which will be updated in recycler view HERE
         TextView textViewTitle;
@@ -49,6 +56,16 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             textViewTitle = itemView.findViewById(R.id.text_view_title);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
+
+            //Setting onclick lister on the card itself
+            //Can open new activity here or send to underlaying activity for reuseability??
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int postion = getAdapterPosition();
+
+                }
+            });
         }
     }
 }
