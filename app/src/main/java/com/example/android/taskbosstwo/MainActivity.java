@@ -9,14 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference noteBookRef = db.collection("Notebook");
@@ -70,6 +72,20 @@ public class MainActivity extends AppCompatActivity {
                 adapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(recyclerView);
+
+        //Create new anno inner class
+        //This custom class lets us pass around documentSnap shots of the documents user click on to any class
+        //Since it contain documentSnap shot, you can extract collection reference, doc reference or anything else
+        adapter.setonItemClickListener(new NoteAdapter.onItemClickListener() {
+            @Override
+            public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Note note = documentSnapshot.toObject(Note.class);
+                String id = documentSnapshot.getId();
+                String path = documentSnapshot.getReference().getPath();
+                Toast.makeText(MainActivity.this, "Position: "
+                        + position + " ID: " + id, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

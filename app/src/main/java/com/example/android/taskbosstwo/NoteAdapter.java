@@ -5,13 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
 
+    private onItemClickListener listener;
 
     /*
      * @param options
@@ -62,10 +65,24 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int postion = getAdapterPosition();
+                    int postion = getAdapterPosition(); //Will return -1 if item was delete animation but we still clicked it
+                    //if -1 position is quaried it will cause the app to crash
+                    //Created a interface so we can pass the position to any activity we need it at
+                    if (postion != RecyclerView.NO_POSITION && listener != null){
+                        listener.OnItemClick(getSnapshots().getSnapshot(postion), postion);
+                    }
 
                 }
             });
         }
+    }
+
+    public interface onItemClickListener{
+        void OnItemClick(DocumentSnapshot documentSnapshot, int position);
+
+    }
+
+    public void setonItemClickListener(onItemClickListener listener){
+            this.listener = listener;
     }
 }
