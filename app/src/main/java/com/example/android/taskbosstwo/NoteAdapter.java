@@ -65,11 +65,11 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int postion = getAdapterPosition(); //Will return -1 if item was delete animation but we still clicked it
+                    int position = getAdapterPosition(); //Will return -1 if item was delete animation but we still clicked it
                     //if -1 position is quaried it will cause the app to crash
                     //Created a interface so we can pass the position to any activity we need it at
-                    if (postion != RecyclerView.NO_POSITION && listener != null){
-                        listener.OnItemClick(getSnapshots().getSnapshot(postion), postion);
+                    if (position != RecyclerView.NO_POSITION && listener != null){
+                        listener.OnItemClick(getSnapshots().getSnapshot(position), position);
                     }
 
                 }

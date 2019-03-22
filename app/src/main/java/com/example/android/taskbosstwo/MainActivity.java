@@ -1,8 +1,12 @@
 package com.example.android.taskbosstwo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity{
     private CollectionReference noteBookRef = db.collection("Notebook");
 
     private NoteAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +63,24 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        //Swipe to DELETE FEATURE
+        SwipeToDeleteCallBack swipeToDeleteCallBack = new SwipeToDeleteCallBack(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                final int position = viewHolder.getAdapterPosition();
+
+
+                adapter.deleteItem(position);
+
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeToDeleteCallBack);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
+       /*
+        //Swipe to DELETE FEATURE (deleted only to the left like unwanted guys on tinder)
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,  //Tell touch which direction of movement you support
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
@@ -72,7 +92,7 @@ public class MainActivity extends AppCompatActivity{
                 adapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(recyclerView);
-
+*/
         //Create new anno inner class
         //This custom class lets us pass around documentSnap shots of the documents user click on to any class
         //Since it contain documentSnap shot, you can extract collection reference, doc reference or anything else
