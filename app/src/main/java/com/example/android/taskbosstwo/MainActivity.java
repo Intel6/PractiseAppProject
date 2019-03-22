@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity{
     private CollectionReference noteBookRef = db.collection("Notebook");
 
     private NoteAdapter adapter;
+    CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(new Intent(MainActivity.this, NewNoteActivity.class));
             }
         });
-
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
         setUpRecyclerView();
 
     }
@@ -67,32 +69,30 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 final int position = viewHolder.getAdapterPosition();
+                final Note note = adapter.getItem(position);
+
 
 
                 adapter.deleteItem(position);
 
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //note object temp stored. and add back into fb, fb recycler view automaticly updates the view
+                        noteBookRef.add(note);
+                    }
+                });
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.show();
             }
+
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeToDeleteCallBack);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-       /*
-        //Swipe to DELETE FEATURE (deleted only to the left like unwanted guys on tinder)
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,  //Tell touch which direction of movement you support
-                ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                //viewHolder know the position on moment touch is detected
-                adapter.deleteItem(viewHolder.getAdapterPosition());
-            }
-        }).attachToRecyclerView(recyclerView);
-*/
         //Create new anno inner class
         //This custom class lets us pass around documentSnap shots of the documents user click on to any class
         //Since it contain documentSnap shot, you can extract collection reference, doc reference or anything else
